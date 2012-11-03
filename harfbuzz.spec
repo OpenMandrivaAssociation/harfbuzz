@@ -8,7 +8,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	0.9.5
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 URL:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -16,7 +16,7 @@ Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}
 BuildRequires:	glib2-devel
 BuildRequires:	cairo-devel
 BuildRequires:	icu-devel
-BuildRequires:	freetype-devel
+BuildRequires:	freetype2-devel
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -57,10 +57,10 @@ find %{buildroot} -name *.la | xargs rm
 %{_bindir}/*
 
 %files -n %{libname}
-%doc AUTHORS README
 %{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
+%doc AUTHORS README
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_includedir}/*
