@@ -2,21 +2,21 @@
 %define _disable_ld_no_undefined 1
 
 %define major 0
-%define libname %mklibname %{name} %major
+%define libname %mklibname %{name} %{major}
 %define develname %mklibname %{name} -d
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	0.9.5
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Other
 URL:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
-BuildRequires:	glib2-devel
-BuildRequires:	cairo-devel
+BuildRequires:	pkgconfig(cairo)
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	icu-devel
-BuildRequires:	freetype2-devel
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -51,8 +51,6 @@ Provides:	%{name}-devel = %{version}-%{release}
 %install
 %makeinstall_std
 
-find %{buildroot} -name *.la | xargs rm
-
 %files
 %{_bindir}/*
 
@@ -64,3 +62,4 @@ find %{buildroot} -name *.la | xargs rm
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_includedir}/*
+
