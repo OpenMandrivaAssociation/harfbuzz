@@ -1,22 +1,23 @@
 %define _disable_ld_as_needed 1
 %define _disable_ld_no_undefined 1
 
-%define major 0
+%define major	0
 %define libname %mklibname %{name} %{major}
-%define develname %mklibname %{name} -d
+%define devname %mklibname %{name} -d
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	0.9.9
+Version:	0.9.11
 Release:	1
 License:	MIT
 Group:		Development/Other
-URL:		http://www.freedesktop.org/wiki/Software/HarfBuzz
+Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
+
+BuildRequires:	icu-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	icu-devel
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -29,14 +30,13 @@ Group:		System/Libraries
 %description -n %{libname}
 Libraries for %{name}.
 
-%package -n %{develname}
+%package -n %{devname}
 Summary:	Headers and development libraries from %{name}
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{develname}
+%description -n %{devname}
 %{name} development headers and libraries.
 
 %prep
@@ -57,7 +57,7 @@ Provides:	%{name}-devel = %{version}-%{release}
 %files -n %{libname}
 %{_libdir}/*.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc AUTHORS README
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
