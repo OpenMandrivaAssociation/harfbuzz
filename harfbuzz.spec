@@ -14,10 +14,10 @@ Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
 
-BuildRequires:	icu-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(icu-uc)
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -55,10 +55,11 @@ Provides:	%{name}-devel = %{version}-%{release}
 %{_bindir}/*
 
 %files -n %{libname}
-%{_libdir}/*.so.%{major}*
+%{_libdir}/libharfbuzz.so.%{major}*
 
 %files -n %{devname}
 %doc AUTHORS README
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_includedir}/*
+
