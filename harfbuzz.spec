@@ -40,7 +40,7 @@ Provides:	%{name}-devel = %{version}-%{release}
 %{name} development headers and libraries.
 
 %prep
-%setup -qn
+%setup -q
 
 %build
 %configure2_5x \
