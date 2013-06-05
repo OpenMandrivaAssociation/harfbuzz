@@ -55,11 +55,10 @@ Provides:	%{name}-devel = %{version}-%{release}
 %{_bindir}/*
 
 %files -n %{libname}
-%{_libdir}/libharfbuzz.so.%{major}*
+%{_libdir}/libharfbuzz*.so.%{major}*
 
 %files -n %{devname}
 %doc AUTHORS README
 %{_libdir}/pkgconfig/*
 %{_libdir}/*.so
 %{_includedir}/*
-
