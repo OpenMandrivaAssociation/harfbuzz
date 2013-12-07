@@ -8,7 +8,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	0.9.23
-Release:	4
+Release:	5
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
