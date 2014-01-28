@@ -7,7 +7,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	0.9.19
+Version:	0.9.25
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -53,6 +53,7 @@ Provides:	%{name}-devel = %{version}-%{release}
 
 %files
 %{_bindir}/*
+%{_datadir}/gtk-doc/html/%{name}/*
 
 %files -n %{libname}
 %{_libdir}/libharfbuzz*.so.%{major}*
