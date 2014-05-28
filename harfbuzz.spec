@@ -1,65 +1,89 @@
 %define _disable_ld_as_needed 1
 %define _disable_ld_no_undefined 1
 
-%define major	0
+%define major 0
 %define libname %mklibname %{name} %{major}
+%define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	0.9.28
-Release:	1
+Release:	3
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
-
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(icu-uc)
+BuildRequires:	pkgconfig(graphite2)
 
 %description
 HarfBuzz is an OpenType text shaping engine.
 There are two HarfBuzz code trees in existence today.
 
+%files
+%{_bindir}/*
+
+#----------------------------------------------------------------------------
+
 %package -n %{libname}
-Summary:	Libraries for the %{name} package
+Summary:	Shared library for the %{name} package
 Group:		System/Libraries
 
 %description -n %{libname}
-Libraries for %{name}.
+Shared library for the %{name} package.
+
+%files -n %{libname}
+%{_libdir}/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{libicu}
+Summary:	Shared library for the %{name} package
+Group:		System/Libraries
+Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+
+%description -n %{libicu}
+Shared library for the %{name} package.
+
+%files -n %{libicu}
+%{_libdir}/lib%{name}-icu.so.%{major}*
+
+#----------------------------------------------------------------------------
 
 %package -n %{devname}
 Summary:	Headers and development libraries from %{name}
 Group:		Development/C
-Requires:	%{libname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{libicu} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
+Conflicts:	harfbuzz < 0.9.28-3
 
 %description -n %{devname}
 %{name} development headers and libraries.
+
+%files -n %{devname}
+%doc AUTHORS README
+%{_datadir}/gtk-doc/html/%{name}/
+%{_libdir}/pkgconfig/*
+%{_libdir}/*.so
+%{_includedir}/*
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
 
 %build
 %configure2_5x \
-	--disable-static
+	--disable-static \
+	--with-graphite2
 
 %make
 
 %install
 %makeinstall_std
 
-%files
-%{_bindir}/*
-%{_datadir}/gtk-doc/html/%{name}/*
-
-%files -n %{libname}
-%{_libdir}/libharfbuzz*.so.%{major}*
-
-%files -n %{devname}
-%doc AUTHORS README
-%{_libdir}/pkgconfig/*
-%{_libdir}/*.so
-%{_includedir}/*
