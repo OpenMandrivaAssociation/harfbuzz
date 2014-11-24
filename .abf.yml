@@ -1,4 +1,2 @@
-removed_sources:
-  harfbuzz-0.9.29.tar.bz2: fbb4e533f0f838c456fbe37751ec2dbf95c8e182
 sources:
-  harfbuzz-0.9.35.tar.bz2: 6f4401af396069214be2ba15b884361ef540e501
+  harfbuzz-0.9.36.tar.bz2: 237e869d9dafc30c37cb6ab9886a616ffee6d71e
