@@ -5,6 +5,7 @@
 %define libname %mklibname %{name} %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
+%bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
@@ -14,8 +15,10 @@ License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
+%if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
+%endif
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(icu-uc)
 BuildRequires:	pkgconfig(graphite2)
