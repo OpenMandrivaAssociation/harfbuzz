@@ -9,7 +9,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	1.4.3
+Version:	1.4.6
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -81,6 +81,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %setup -q
 
 %build
+CXXFLAGS="%{optflags} -std=c++14" \
 %configure \
 	--disable-static \
 	--with-graphite2
