@@ -5,7 +5,7 @@
 %define libname %mklibname %{name} %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
