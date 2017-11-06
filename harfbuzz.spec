@@ -9,7 +9,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	1.6.0
+Version:	1.6.3
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -20,7 +20,7 @@ BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 %endif
 BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	pkgconfig(icu-uc)
+BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 
 %description
