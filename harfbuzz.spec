@@ -3,13 +3,14 @@
 
 %define major 0
 %define libname %mklibname %{name} %{major}
+%define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
 %bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	1.7.5
+Version:	1.7.6
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -44,6 +45,18 @@ Shared library for the %{name} package.
 
 #----------------------------------------------------------------------------
 
+%package -n %{slibname}
+Summary:	Shared library for the %{name} subset package
+Group:		System/Libraries
+
+%description -n %{slibname}
+Shared library for the %{name} subset package.
+
+%files -n %{slibname}
+%{_libdir}/lib%{name}-subset.so.%{major}*
+
+#----------------------------------------------------------------------------
+
 %package -n %{libicu}
 Summary:	Shared library for the %{name} package
 Group:		System/Libraries
@@ -61,6 +74,7 @@ Shared library for the %{name} package.
 Summary:	Headers and development libraries from %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
+Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
@@ -72,6 +86,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %doc AUTHORS README
 %{_datadir}/gtk-doc/html/%{name}/
 %{_libdir}/pkgconfig/*
+%{_libdir}/cmake/harfbuzz
 %{_libdir}/*.so
 %{_includedir}/*
 
