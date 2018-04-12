@@ -6,7 +6,7 @@
 %define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
@@ -29,7 +29,9 @@ HarfBuzz is an OpenType text shaping engine.
 There are two HarfBuzz code trees in existence today.
 
 %files
+%if !%{with bootstrap}
 %{_bindir}/*
+%endif
 
 #----------------------------------------------------------------------------
 
