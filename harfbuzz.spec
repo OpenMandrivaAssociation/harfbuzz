@@ -19,8 +19,8 @@ Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
-%endif
 BuildRequires:	pkgconfig(glib-2.0)
+%endif
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 
