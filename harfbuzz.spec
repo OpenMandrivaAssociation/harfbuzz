@@ -6,12 +6,12 @@
 %define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	1.7.6
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
