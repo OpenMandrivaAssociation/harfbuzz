@@ -3,14 +3,15 @@
 
 %define major 0
 %define libname %mklibname %{name} %{major}
+%define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
 %define devname %mklibname %{name} -d
 %bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	1.7.5
-Release:	2
+Version:	1.8.8
+Release:	1
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -18,8 +19,8 @@ Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
-%endif
 BuildRequires:	pkgconfig(glib-2.0)
+%endif
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 
@@ -28,7 +29,9 @@ HarfBuzz is an OpenType text shaping engine.
 There are two HarfBuzz code trees in existence today.
 
 %files
+%if !%{with bootstrap}
 %{_bindir}/*
+%endif
 
 #----------------------------------------------------------------------------
 
@@ -41,6 +44,18 @@ Shared library for the %{name} package.
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{slibname}
+Summary:	Shared library for the %{name} subset package
+Group:		System/Libraries
+
+%description -n %{slibname}
+Shared library for the %{name} subset package.
+
+%files -n %{slibname}
+%{_libdir}/lib%{name}-subset.so.%{major}*
 
 #----------------------------------------------------------------------------
 
@@ -61,6 +76,7 @@ Shared library for the %{name} package.
 Summary:	Headers and development libraries from %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
+Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
@@ -72,6 +88,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %doc AUTHORS README
 %{_datadir}/gtk-doc/html/%{name}/
 %{_libdir}/pkgconfig/*
+%{_libdir}/cmake/harfbuzz
 %{_libdir}/*.so
 %{_includedir}/*
 
