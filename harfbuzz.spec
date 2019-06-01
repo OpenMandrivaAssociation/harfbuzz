@@ -10,12 +10,12 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	2.4.0
+Version:	2.5.1
 Release:	1
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
-Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.bz2
+Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.xz
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
