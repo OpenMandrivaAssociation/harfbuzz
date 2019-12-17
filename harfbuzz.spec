@@ -1,4 +1,4 @@
-%global optflags %{optflags} -O3 -I/usr/include/freetype2
+%global optflags %{optflags} -O3
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -15,6 +15,7 @@ License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.xz
+Patch0:		harfbuzz-2.6.4-fix-freetype.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 %if !%{with bootstrap}
