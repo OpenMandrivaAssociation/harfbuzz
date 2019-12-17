@@ -5,6 +5,7 @@
 %define libname %mklibname %{name} %{major}
 %define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
+%define libgob %mklibname %{name}-gobject %{major}
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
 %bcond_with bootstrap
@@ -62,15 +63,28 @@ Shared library for the %{name} subset package.
 #----------------------------------------------------------------------------
 
 %package -n %{libicu}
-Summary:	Shared library for the %{name} package
+Summary:	Shared ICU library for the %{name} package
 Group:		System/Libraries
 Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
 
 %description -n %{libicu}
-Shared library for the %{name} package.
+Shared ICU library for the %{name} package.
 
 %files -n %{libicu}
 %{_libdir}/lib%{name}-icu.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{libgob}
+Summary:	Shared GObject library for the %{name} package
+Group:		System/Libraries
+Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+
+%description -n %{libgob}
+Shared GObject library for the %{name} package.
+
+%files -n %{libgob}
+%{_libdir}/lib%{name}-gobject.so.%{major}*
 
 #----------------------------------------------------------------------------
 
@@ -93,6 +107,7 @@ Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
+Requires:	%{libgob} = %{EVRD}
 Requires:	%{girname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
@@ -102,6 +117,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 
 %files -n %{devname}
 %doc AUTHORS README
+%{_datadir}/gir-1.0/HarfBuzz-%{api}.gir
 %{_libdir}/pkgconfig/*
 %{_libdir}/cmake/harfbuzz
 %{_libdir}/*.so
