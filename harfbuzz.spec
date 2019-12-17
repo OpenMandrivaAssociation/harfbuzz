@@ -1,9 +1,11 @@
 %global optflags %{optflags} -O3
 
 %define major 0
+%define api 0.0
 %define libname %mklibname %{name} %{major}
 %define slibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu %{major}
+%define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
 %bcond_with bootstrap
 
@@ -15,9 +17,6 @@ License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.xz
-Patch0:		harfbuzz-2.6.4-fix-freetype.patch
-BuildRequires:	cmake
-BuildRequires:	ninja
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
@@ -75,12 +74,26 @@ Shared library for the %{name} package.
 
 #----------------------------------------------------------------------------
 
+%package -n %{girname}
+Summary:	GObject Introspection interface description for HarfBuzz
+Group:		System/Libraries
+Requires:	%{libname} = %{EVRD}
+
+%description -n %{girname}
+GObject Introspection interface description for HarfBuzz
+
+%files -n %{girname}
+%{_libdir}/girepository-1.0/HarfBuzz-%{api}.typelib
+
+#----------------------------------------------------------------------------
+
 %package -n %{devname}
 Summary:	Headers and development libraries from %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
+Requires:	%{girname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
@@ -99,20 +112,20 @@ Conflicts:	harfbuzz < 0.9.28-3
 
 %prep
 %autosetup -p1
+NOCONFIGURE=1 ./autogen.sh
 
 %build
-%cmake \
-%if !%{with bootstrap}
-    -DHB_HAVE_FREETYPE=ON \
-    -DHB_HAVE_GRAPHITE2=ON \
-    -DHB_HAVE_GLIB=ON \
-    -DHB_HAVE_GOBJECT=ON \
-    -DHB_HAVE_INTROSPECTION=ON \
-%endif
-    -DHB_HAVE_ICU=ON \
-    -G Ninja
+%configure \
+	--with-cairo=yes \
+	--with-freetype=yes \
+	--with-glib=yes \
+	--with-gobject=yes \
+	--with-graphite2=yes \
+	--with-icu=yes \
+	--with-fontconfig=yes \
+	--enable-introspection
 
-%ninja_build
+%make_build
 
 %install
-%ninja_install
+%make_install
