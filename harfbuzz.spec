@@ -1,6 +1,4 @@
-%define _disable_ld_as_needed 1
-%define _disable_ld_no_undefined 1
-
+%global optflags %{optflags} -O3
 %define major 0
 %define libname %mklibname %{name} %{major}
 %define slibname %mklibname %{name}-subset %{major}
@@ -11,11 +9,13 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	2.6.4
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	http://www.freedesktop.org/software/harfbuzz/release/%{name}-%{version}.tar.xz
+BuildRequires:	cmake
+BuildRequires:	ninja
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
@@ -95,15 +95,21 @@ Conflicts:	harfbuzz < 0.9.28-3
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
-CXXFLAGS="%{optflags} -std=c++14" \
-%configure \
-	--disable-static \
-	--with-graphite2
+%cmake \
+%if !%{with bootstrap}
+    -DHB_HAVE_FREETYPE=ON \
+    -DHB_HAVE_GRAPHITE2=ON \
+    -DHB_HAVE_GLIB=ON \
+    -DHB_HAVE_GOBJECT=ON \
+    -DHB_HAVE_INTROSPECTION=ON \
+%endif
+    -DHB_HAVE_ICU=ON \
+    -G Ninja
 
-%make
+%ninja_build
 
 %install
-%makeinstall_std
+%ninja_install
