@@ -102,7 +102,6 @@ Conflicts:	harfbuzz < 0.9.28-3
 
 %files -n %{devname}
 %doc AUTHORS README
-%{_datadir}/gtk-doc/html/%{name}/
 %{_libdir}/pkgconfig/*
 %{_libdir}/cmake/harfbuzz
 %{_libdir}/*.so
