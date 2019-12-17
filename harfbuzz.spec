@@ -1,4 +1,5 @@
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -O3 -I/usr/include/freetype2
+
 %define major 0
 %define libname %mklibname %{name} %{major}
 %define slibname %mklibname %{name}-subset %{major}
