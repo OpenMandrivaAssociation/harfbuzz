@@ -1,3 +1,10 @@
+# harfbuzz is used by wine
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+
 %global optflags %{optflags} -O3
 
 %define major 0
@@ -8,12 +15,18 @@
 %define libgob %mklibname %{name}-gobject %{major}
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
+%define lib32name %mklib32name %{name} %{major}
+%define slib32name %mklib32name %{name}-subset %{major}
+%define lib32icu %mklib32name %{name}-icu %{major}
+%define lib32gob %mklib32name %{name}-gobject %{major}
+%define gir32name %mklib32name %{name}-gir %{api}
+%define dev32name %mklib32name %{name} -d
 %bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	2.6.6
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -27,6 +40,11 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0)
 %endif
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
+%if %{with compat32}
+BuildRequires:	devel(libfreetype)
+BuildRequires:	devel(libglib-2.0)
+BuildRequires:	devel(libicuuc)
+%endif
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -125,12 +143,110 @@ Conflicts:	harfbuzz < 0.9.28-3
 %{_includedir}/*
 
 #----------------------------------------------------------------------------
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	Shared library for the %{name} package (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32name}
+Shared library for the %{name} package.
+
+%files -n %{lib32name}
+%{_prefix}/lib/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{slib32name}
+Summary:	Shared library for the %{name} subset package (32-bit)
+Group:		System/Libraries
+
+%description -n %{slib32name}
+Shared library for the %{name} subset package.
+
+%files -n %{slib32name}
+%{_prefix}/lib/lib%{name}-subset.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{lib32icu}
+Summary:	Shared ICU library for the %{name} package (32-bit)
+Group:		System/Libraries
+Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+
+%description -n %{lib32icu}
+Shared ICU library for the %{name} package.
+
+%files -n %{lib32icu}
+%{_prefix}/lib/lib%{name}-icu.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+# We can probably get away without 32-bit gobject crap
+%if 0
+%package -n %{lib32gob}
+Summary:	Shared GObject library for the %{name} package (32-bit)
+Group:		System/Libraries
+Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+
+%description -n %{lib32gob}
+Shared GObject library for the %{name} package.
+
+%files -n %{lib32gob}
+%{_prefix}/lib/lib%{name}-gobject.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{gir32name}
+Summary:	GObject Introspection interface description for HarfBuzz (32-bit)
+Group:		System/Libraries
+Requires:	%{libname} = %{EVRD}
+
+%description -n %{gir32name}
+GObject Introspection interface description for HarfBuzz
+
+%files -n %{gir32name}
+%{_prefix}/lib/girepository-1.0/HarfBuzz-%{api}.typelib
+%endif
+
+#----------------------------------------------------------------------------
+
+%package -n %{dev32name}
+Summary:	Headers and development libraries from %{name} (32-bit)
+Group:		Development/C
+Requires:	%{devname} = %{EVRD}
+Requires:	%{lib32name} = %{EVRD}
+Requires:	%{slib32name} = %{EVRD}
+Requires:	%{lib32icu} = %{EVRD}
+#Requires:	%{lib32gob} = %{EVRD}
+#Requires:	%{gir32name} = %{EVRD}
+
+%description -n %{dev32name}
+%{name} development headers and libraries.
+
+%files -n %{dev32name}
+%{_prefix}/lib/pkgconfig/*
+%{_prefix}/lib/cmake/harfbuzz
+%{_prefix}/lib/*.so
+%endif
+
+#----------------------------------------------------------------------------
 
 %prep
 %autosetup -p1
 NOCONFIGURE=1 ./autogen.sh
 
-%build
+export CONFIGURE_TOP="$(pwd)"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32 \
+	--without-cairo
+cd ..
+%endif
+
+mkdir build
+cd build
 %configure \
 	--with-cairo=yes \
 	--with-freetype=yes \
@@ -141,7 +257,14 @@ NOCONFIGURE=1 ./autogen.sh
 	--with-fontconfig=yes \
 	--enable-introspection
 
-%make_build
+%build
+%if %{with compat32}
+%make_build -C build32
+%endif
+%make_build -C build
 
 %install
-%make_install
+%if %{with compat32}
+%make_install -C build32
+%endif
+%make_install -C build
