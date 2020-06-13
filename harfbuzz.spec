@@ -26,7 +26,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	2.6.7
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -43,7 +43,12 @@ BuildRequires:	pkgconfig(graphite2)
 %if %{with compat32}
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libglib-2.0)
+BuildRequires:	devel(libgobject-2.0)
 BuildRequires:	devel(libicuuc)
+BuildRequires:	devel(libz)
+BuildRequires:	devel(libbz2)
+BuildRequires:	devel(libpng16)
+BuildRequires:	devel(libffi)
 %endif
 
 %description
