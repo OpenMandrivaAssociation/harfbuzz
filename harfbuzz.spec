@@ -26,7 +26,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	2.7.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -38,6 +38,7 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 %endif
+BuildRequires:  meson
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 %if %{with compat32}
@@ -238,38 +239,19 @@ Requires:	%{lib32icu} = %{EVRD}
 
 %prep
 %autosetup -p1
-NOCONFIGURE=1 ./autogen.sh
-
-export CONFIGURE_TOP="$(pwd)"
-
-%if %{with compat32}
-mkdir build32
-cd build32
-%configure32 \
-	--without-cairo
-cd ..
-%endif
-
-mkdir build
-cd build
-%configure \
-	--with-cairo=yes \
-	--with-freetype=yes \
-	--with-glib=yes \
-	--with-gobject=yes \
-	--with-graphite2=yes \
-	--with-icu=yes \
-	--with-fontconfig=yes \
-	--enable-introspection
 
 %build
+
 %if %{with compat32}
-%make_build -C build32
+%meson32 \
+%meson_build -C build32
 %endif
-%make_build -C build
+
+%meson
+%meson_build
 
 %install
 %if %{with compat32}
-%make_install -C build32
+%meson_install -C build32
 %endif
-%make_install -C build
+%meson_install
