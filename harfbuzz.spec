@@ -31,6 +31,7 @@ License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	https://github.com/harfbuzz/harfbuzz/archive/${version}/%{name}-%{version}.tar.gz
+Patch0:   harf.patch
 
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
