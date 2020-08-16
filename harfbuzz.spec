@@ -38,12 +38,12 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 %endif
-BuildRequires:  git
 BuildRequires:  cmake
 BuildRequires:  meson
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 BuildRequires:  pkgconfig(fontconfig)
+BuildRequires:  %{_lib}fontconfig1
 %if %{with compat32}
 BuildRequires:  devel(libfontconfig)
 BuildRequires:	devel(libfreetype)
