@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig(graphite2)
 BuildRequires:  pkgconfig(fontconfig)
 BuildRequires:  %{_lib}fontconfig1
 %if %{with compat32}
+BuildRequires:  cmake
 BuildRequires:  devel(libfontconfig)
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libglib-2.0)
@@ -54,6 +55,7 @@ BuildRequires:	devel(libz)
 BuildRequires:	devel(libbz2)
 BuildRequires:	devel(libpng16)
 BuildRequires:	devel(libffi)
+BuildRequires:	devel(libX11)
 %endif
 
 %description
