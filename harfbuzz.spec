@@ -40,8 +40,10 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0)
 %endif
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
+BuildRequires:	pkgconfig(fontconfig)
 %if %{with compat32}
 BuildRequires:	devel(libfreetype)
+BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libglib-2.0)
 BuildRequires:	devel(libgobject-2.0)
 BuildRequires:	devel(libicuuc)
