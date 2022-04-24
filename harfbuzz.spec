@@ -9,23 +9,31 @@
 
 %define major 0
 %define api 0.0
-%define libname %mklibname %{name} %{major}
-%define slibname %mklibname %{name}-subset %{major}
-%define libicu %mklibname %{name}-icu %{major}
-%define libgob %mklibname %{name}-gobject %{major}
+%define libname %mklibname %{name}
+%define oldlibname %mklibname %{name} %{major}
+%define slibname %mklibname %{name}-subset
+%define oldslibname %mklibname %{name}-subset %{major}
+%define libicu %mklibname %{name}-icu
+%define oldlibicu %mklibname %{name}-icu %{major}
+%define libgob %mklibname %{name}-gobject
+%define oldlibgob %mklibname %{name}-gobject %{major}
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
-%define lib32name %mklib32name %{name} %{major}
-%define slib32name %mklib32name %{name}-subset %{major}
-%define lib32icu %mklib32name %{name}-icu %{major}
-%define lib32gob %mklib32name %{name}-gobject %{major}
+%define lib32name %mklib32name %{name}
+%define oldlib32name %mklib32name %{name} %{major}
+%define slib32name %mklib32name %{name}-subset
+%define oldslib32name %mklib32name %{name}-subset %{major}
+%define lib32icu %mklib32name %{name}-icu
+%define oldlib32icu %mklib32name %{name}-icu %{major}
+%define lib32gob %mklib32name %{name}-gobject
+%define oldlib32gob %mklib32name %{name}-gobject %{major}
 %define gir32name %mklib32name %{name}-gir %{api}
 %define dev32name %mklib32name %{name} -d
 %bcond_with bootstrap
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	4.2.0
+Version:	4.2.1
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -68,6 +76,7 @@ There are two HarfBuzz code trees in existence today.
 %package -n %{libname}
 Summary:	Shared library for the %{name} package
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n %{libname}
 Shared library for the %{name} package.
@@ -80,6 +89,7 @@ Shared library for the %{name} package.
 %package -n %{slibname}
 Summary:	Shared library for the %{name} subset package
 Group:		System/Libraries
+%rename %{oldslibname}
 
 %description -n %{slibname}
 Shared library for the %{name} subset package.
@@ -93,6 +103,7 @@ Shared library for the %{name} subset package.
 Summary:	Shared ICU library for the %{name} package
 Group:		System/Libraries
 Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+%rename %{oldlibicu}
 
 %description -n %{libicu}
 Shared ICU library for the %{name} package.
@@ -106,6 +117,7 @@ Shared ICU library for the %{name} package.
 Summary:	Shared GObject library for the %{name} package
 Group:		System/Libraries
 Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+%rename %{oldlibgob}
 
 %description -n %{libgob}
 Shared GObject library for the %{name} package.
@@ -155,6 +167,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %package -n %{lib32name}
 Summary:	Shared library for the %{name} package (32-bit)
 Group:		System/Libraries
+%rename %{oldlib32name}
 
 %description -n %{lib32name}
 Shared library for the %{name} package.
@@ -167,6 +180,7 @@ Shared library for the %{name} package.
 %package -n %{slib32name}
 Summary:	Shared library for the %{name} subset package (32-bit)
 Group:		System/Libraries
+%rename %{oldslib32name}
 
 %description -n %{slib32name}
 Shared library for the %{name} subset package.
@@ -180,6 +194,7 @@ Shared library for the %{name} subset package.
 Summary:	Shared ICU library for the %{name} package (32-bit)
 Group:		System/Libraries
 Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+%rename %{oldlib32icu}
 
 %description -n %{lib32icu}
 Shared ICU library for the %{name} package.
@@ -195,6 +210,7 @@ Shared ICU library for the %{name} package.
 Summary:	Shared GObject library for the %{name} package (32-bit)
 Group:		System/Libraries
 Conflicts:	%{_lib}harfbuzz0 < 0.9.28-3
+%rename %{oldlib32gob}
 
 %description -n %{lib32gob}
 Shared GObject library for the %{name} package.
