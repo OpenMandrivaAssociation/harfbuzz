@@ -51,6 +51,7 @@ BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 BuildRequires:	pkgconfig(fontconfig)
 %if %{with compat32}
+BuildRequires:	libc6
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libglib-2.0)
