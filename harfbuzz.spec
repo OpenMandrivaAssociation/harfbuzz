@@ -33,7 +33,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	4.3.0
+Version:	4.4.0
 Release:	1
 License:	MIT
 Group:		Development/Other
