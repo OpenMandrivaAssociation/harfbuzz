@@ -11,6 +11,7 @@
 %define api 0.0
 %define libname %mklibname %{name}
 %define oldlibname %mklibname %{name} %{major}
+%define calibname %mklibname %{name}-cairo
 %define slibname %mklibname %{name}-subset
 %define oldslibname %mklibname %{name}-subset %{major}
 %define libicu %mklibname %{name}-icu
@@ -21,6 +22,7 @@
 %define devname %mklibname %{name} -d
 %define lib32name %mklib32name %{name}
 %define oldlib32name %mklib32name %{name} %{major}
+%define calib32name %mklib32name %{name}-cairo
 %define slib32name %mklib32name %{name}-subset
 %define oldslib32name %mklib32name %{name}-subset %{major}
 %define lib32icu %mklib32name %{name}-icu
@@ -33,7 +35,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	6.0.0
+Version:	7.0.0
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -84,6 +86,17 @@ Shared library for the %{name} package.
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+%package -n %{calibname}
+Summary:	Shared library for the %{name} cairo package
+Group:		System/Libraries
+
+%description -n %{calibname}
+Shared library for the %{name} cairo package.
+
+%files -n %{calibname}
+%{_libdir}/libharfbuzz-cairo.so.*
 
 #----------------------------------------------------------------------------
 
@@ -175,6 +188,18 @@ Shared library for the %{name} package.
 
 %files -n %{lib32name}
 %{_prefix}/lib/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+%package -n %{calib32name}
+Summary:	Shared library for the %{name} cairo package (32-bit)
+Group:		System/Libraries
+
+%description -n %{calib32name}
+Shared library for the %{name} cairo package.
+
+%files -n %{calib32name}
+%{_prefix}/lib/libharfbuzz-cairo.so.*
+
 
 #----------------------------------------------------------------------------
 
