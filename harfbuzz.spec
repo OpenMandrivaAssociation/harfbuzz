@@ -32,6 +32,9 @@
 %define gir32name %mklib32name %{name}-gir %{api}
 %define dev32name %mklib32name %{name} -d
 %bcond_with bootstrap
+# Omitting gir is useful for multi-stage bootstrapping
+# and for systems free of G junk
+%bcond_without gir
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
@@ -46,7 +49,11 @@ Source0:	https://github.com/harfbuzz/harfbuzz/releases/download/%{version}/harfb
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(glib-2.0)
+%if %{with gir}
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
+%else
+BuildConflicts:	pkgconfig(gobject-introspection-1.0)
+%endif
 %endif
 BuildRequires:	gtk-doc
 BuildRequires:	pkgconfig(icu-uc) >= 60
@@ -149,8 +156,10 @@ Requires:	%{libname} = %{EVRD}
 %description -n %{girname}
 GObject Introspection interface description for HarfBuzz
 
+%if %{with gir}
 %files -n %{girname}
 %{_libdir}/girepository-1.0/HarfBuzz-%{api}.typelib
+%endif
 
 #----------------------------------------------------------------------------
 
@@ -170,7 +179,9 @@ Conflicts:	harfbuzz < 0.9.28-3
 
 %files -n %{devname}
 %doc AUTHORS README
+%if %{with gir}
 %{_datadir}/gir-1.0/HarfBuzz-%{api}.gir
+%endif
 %{_libdir}/pkgconfig/*
 %{_libdir}/cmake/harfbuzz
 %{_libdir}/*.so
