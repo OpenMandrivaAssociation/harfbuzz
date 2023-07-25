@@ -5,6 +5,11 @@
 %bcond_with compat32
 %endif
 
+%if %{cross_compiling}
+# Workaround for libtool being a broken mess
+%global prefer_gcc 1
+%endif
+
 %global optflags %{optflags} -O3
 
 %define major 0
