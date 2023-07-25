@@ -321,7 +321,11 @@ cd build
 	--with-graphite2=yes \
 	--with-icu=yes \
 	--with-fontconfig=yes \
+%if %{with gir}
 	--enable-introspection
+%else
+	--disable-introspection
+%endif
 
 %build
 %if %{with compat32}
