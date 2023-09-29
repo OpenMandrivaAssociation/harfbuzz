@@ -175,7 +175,9 @@ Requires:	%{libname} = %{EVRD}
 Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
 Requires:	%{libgob} = %{EVRD}
+%if %{with gir}
 Requires:	%{girname} = %{EVRD}
+%endif
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
