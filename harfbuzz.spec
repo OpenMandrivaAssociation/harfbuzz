@@ -25,6 +25,11 @@
 %define oldlibgob %mklibname %{name}-gobject %{major}
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
+%define cadev %mklibname %{name}-cairo -d
+%define girdev %mklibname %{name}-gir -d
+%define subdev %mklibname %{name}-subset -d
+%define icudev %mklibname %{name}-icu -d
+%define gobdev %mklibname %{name}-gobject -d
 %define lib32name %mklib32name %{name}
 %define oldlib32name %mklib32name %{name} %{major}
 %define calib32name %mklib32name %{name}-cairo
@@ -44,7 +49,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	8.2.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		http://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -174,10 +179,6 @@ Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
-Requires:	%{libgob} = %{EVRD}
-%if %{with gir}
-Requires:	%{girname} = %{EVRD}
-%endif
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
@@ -186,13 +187,73 @@ Conflicts:	harfbuzz < 0.9.28-3
 
 %files -n %{devname}
 %doc AUTHORS README
+%{_libdir}/pkgconfig/harfbuzz.pc
+%{_libdir}/pkgconfig/harfbuzz-subset.pc
+%{_libdir}/cmake/harfbuzz
+%{_libdir}/libharfbuzz.so
+%{_libdir}/libharfbuzz-subset.so
+%{_includedir}/*
+%exclude %{_includedir}/harfbuzz/hb-cairo.h
+%exclude %{_includedir}/harfbuzz/hb-icu.h
+%exclude %{_includedir}/harfbuzz/hb-gobject*.h
+
+#----------------------------------------------------------------------------
+%package -n %{cadev}
+Summary:	Headers and development libraries from %{name}'s cairo support
+Group:		Development/C
+Requires:	%{calibname} = %{EVRD}
+
+%description -n %{cadev}
+Headers and development libraries from %{name}'s cairo support
+
+%files -n %{cadev}
+%{_libdir}/pkgconfig/harfbuzz-cairo.pc
+%{_includedir}/harfbuzz/hb-cairo.h
+%{_libdir}/libharfbuzz-cairo.so
+
+#----------------------------------------------------------------------------
+%package -n %{icudev}
+Summary:	Headers and development libraries from %{name}'s ICU support
+Group:		Development/C
+Requires:	%{libicu} = %{EVRD}
+
+%description -n %{icudev}
+Headers and development libraries from %{name}'s ICU support
+
+%files -n %{icudev}
+%{_libdir}/pkgconfig/harfbuzz-icu.pc
+%{_includedir}/harfbuzz/hb-icu.h
+%{_libdir}/libharfbuzz-icu.so
+
+#----------------------------------------------------------------------------
+%package -n %{gobdev}
+Summary:	Headers and development libraries from %{name}'s gobject bindings
+Group:		Development/C
+Requires:	%{libgob} = %{EVRD}
+
+%description -n %{gobdev}
+Headers and development libraries from %{name}'s gobject bindings
+
+%files -n %{gobdev}
+%{_libdir}/pkgconfig/harfbuzz-gobject.pc
+%{_includedir}/harfbuzz/hb-gobject*.h
+%{_libdir}/libharfbuzz-gobject.so
+
+#----------------------------------------------------------------------------
 %if %{with gir}
+%package -n %{girdev}
+Summary:	Headers and development libraries from %{name}'s gobject-introspection bindings
+Group:		Development/C
+%if %{with gir}
+Requires:	%{girname} = %{EVRD}
+%endif
+
+%description -n %{girdev}
+Headers and development libraries from %{name}'s gobject-introspection bindings
+
+%files -n %{girdev}
 %{_datadir}/gir-1.0/HarfBuzz-%{api}.gir
 %endif
-%{_libdir}/pkgconfig/*
-%{_libdir}/cmake/harfbuzz
-%{_libdir}/*.so
-%{_includedir}/*
 
 #----------------------------------------------------------------------------
 %if %{with compat32}
