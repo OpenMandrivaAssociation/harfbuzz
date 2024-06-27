@@ -48,8 +48,8 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	8.5.0
-Release:	2
+Version:	9.0.0
+Release:	1
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -81,6 +81,7 @@ BuildRequires:	devel(libbz2)
 BuildRequires:	devel(libpng16)
 BuildRequires:	devel(libffi)
 %endif
+BuildRequires:	meson
 
 %description
 HarfBuzz is an OpenType text shaping engine.
@@ -235,6 +236,7 @@ Requires:	%{libgob} = %{EVRD}
 Headers and development libraries from %{name}'s gobject bindings
 
 %files -n %{gobdev}
+%doc %{_datadir}/gtk-doc/html/harfbuzz
 %{_libdir}/pkgconfig/harfbuzz-gobject.pc
 %{_includedir}/harfbuzz/hb-gobject*.h
 %{_libdir}/libharfbuzz-gobject.so
@@ -309,8 +311,6 @@ Shared ICU library for the %{name} package.
 
 #----------------------------------------------------------------------------
 
-# We can probably get away without 32-bit gobject crap
-%if 0
 %package -n %{lib32gob}
 Summary:	Shared GObject library for the %{name} package (32-bit)
 Group:		System/Libraries
@@ -325,6 +325,8 @@ Shared GObject library for the %{name} package.
 
 #----------------------------------------------------------------------------
 
+# We can get away with not having 32-bit GIR cruft
+%if 0
 %package -n %{gir32name}
 Summary:	GObject Introspection interface description for HarfBuzz (32-bit)
 Group:		System/Libraries
@@ -362,42 +364,30 @@ Requires:	%{lib32icu} = %{EVRD}
 
 %prep
 %autosetup -p1
-NOCONFIGURE=1 ./autogen.sh
-
-export CONFIGURE_TOP="$(pwd)"
-
 %if %{with compat32}
-mkdir build32
-cd build32
-%configure32 \
-	--without-cairo
-cd ..
+%meson32 \
+	-Dcairo=enabled \
+	-Dchafa=disabled \
+	-Dintrospection=disabled
 %endif
 
-mkdir build
-cd build
-%configure \
-	--with-cairo=yes \
-	--with-freetype=yes \
-	--with-glib=yes \
-	--with-gobject=yes \
-	--with-graphite2=yes \
-	--with-icu=yes \
-	--with-fontconfig=yes \
+%meson \
+	-Dchafa=disabled \
+	-Dexperimental_api=true \
 %if %{with gir}
-	--enable-introspection
+	-Dintrospection=enabled
 %else
-	--disable-introspection
+	-Dintrospection=disabled
 %endif
 
 %build
 %if %{with compat32}
-%make_build -C build32
+%ninja_build -C build32
 %endif
-%make_build -C build
+%ninja_build -C build
 
 %install
 %if %{with compat32}
-%make_install -C build32
+%ninja_install -C build32
 %endif
-%make_install -C build
+%ninja_install -C build
