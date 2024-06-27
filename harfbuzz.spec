@@ -82,6 +82,8 @@ BuildRequires:	devel(libz)
 BuildRequires:	devel(libbz2)
 BuildRequires:	devel(libpng16)
 BuildRequires:	devel(libffi)
+BuildRequires:	devel(libXau)
+BuildRequires:	devel(libXdmcp)
 %endif
 BuildRequires:	meson
 
