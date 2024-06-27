@@ -370,7 +370,7 @@ Requires:	%{lib32icu} = %{EVRD}
 %meson32 \
 	-Dcairo=enabled \
 	-Dchafa=disabled \
-	-Dintrospection=disabled
+	-Dintrospection=disabled || :
 if ! [ -e build32/build.ninja ]; then
 	cat build32/meson-logs/meson-log.txt
 	exit 1
