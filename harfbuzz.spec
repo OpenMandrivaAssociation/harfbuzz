@@ -71,6 +71,8 @@ BuildRequires:	pkgconfig(graphite2)
 BuildRequires:	pkgconfig(fontconfig)
 %if %{with compat32}
 BuildRequires:	libc6
+BuildRequires:	devel(libcairo)
+BuildRequires:	devel(libpangocairo-1.0)
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libglib-2.0)
