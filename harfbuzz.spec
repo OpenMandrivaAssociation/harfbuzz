@@ -367,10 +367,13 @@ Requires:	%{lib32icu} = %{EVRD}
 %prep
 %autosetup -p1
 %if %{with compat32}
-%meson32 \
+if ! %meson32 \
 	-Dcairo=enabled \
 	-Dchafa=disabled \
-	-Dintrospection=disabled
+	-Dintrospection=disabled ; then
+	cat build32/meson-logs/meson-log.txt
+	exit 1
+fi
 %endif
 
 %meson \
