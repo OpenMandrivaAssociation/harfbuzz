@@ -367,10 +367,11 @@ Requires:	%{lib32icu} = %{EVRD}
 %prep
 %autosetup -p1
 %if %{with compat32}
-if ! %meson32 \
+%meson32 \
 	-Dcairo=enabled \
 	-Dchafa=disabled \
-	-Dintrospection=disabled ; then
+	-Dintrospection=disabled
+if ! [ -e build32/build.ninja ]; then
 	cat build32/meson-logs/meson-log.txt
 	exit 1
 fi
