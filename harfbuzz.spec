@@ -49,7 +49,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	9.0.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -382,6 +382,7 @@ fi
 %meson \
 	-Dchafa=disabled \
 	-Dexperimental_api=true \
+	-Dgraphite2=enabled \
 %if %{with gir}
 	-Dintrospection=enabled
 %else
