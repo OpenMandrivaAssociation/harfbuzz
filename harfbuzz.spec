@@ -43,13 +43,13 @@
 %define dev32name %mklib32name %{name} -d
 %bcond_with bootstrap
 # Omitting gir is useful for multi-stage bootstrapping
-# and for systems free of G junk
+# and for systems without gtk
 %bcond_without gir
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	9.0.0
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
