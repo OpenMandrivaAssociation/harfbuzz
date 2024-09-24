@@ -191,7 +191,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %{name} development headers and libraries.
 
 %files -n %{devname}
-%doc AUTHORS README
+%doc AUTHORS
 %{_libdir}/pkgconfig/harfbuzz.pc
 %{_libdir}/pkgconfig/harfbuzz-subset.pc
 %{_libdir}/cmake/harfbuzz
