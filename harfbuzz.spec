@@ -48,7 +48,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	10.0.0
+Version:	10.0.1
 Release:	1
 License:	MIT
 Group:		Development/Other
