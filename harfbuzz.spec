@@ -49,7 +49,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	10.4.0
-Release:	3
+Release:	4
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -184,6 +184,9 @@ Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Requires:	%{slibname} = %{EVRD}
 Requires:	%{libicu} = %{EVRD}
+# make it at least recomm. many packsges still require harfbuzz.pc at build time but expect also this header.
+Recommends:	%{gobdev} = %{EVRD}
+Recommends:	%{cadev} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
