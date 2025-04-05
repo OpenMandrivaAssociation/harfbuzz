@@ -48,7 +48,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	11.0.0
+Version:	11.0.1
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -94,6 +94,7 @@ There are two HarfBuzz code trees in existence today.
 %files
 %if !%{with bootstrap}
 %{_bindir}/*
+%{_mandir}/man1/*
 %endif
 
 #----------------------------------------------------------------------------
