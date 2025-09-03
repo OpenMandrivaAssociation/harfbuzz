@@ -48,7 +48,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	11.4.2
+Version:	11.4.5
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -195,7 +195,6 @@ Conflicts:	harfbuzz < 0.9.28-3
 %{name} development headers and libraries.
 
 %files -n %{devname}
-%doc AUTHORS
 %{_libdir}/pkgconfig/harfbuzz.pc
 %{_libdir}/pkgconfig/harfbuzz-subset.pc
 %{_libdir}/cmake/harfbuzz
