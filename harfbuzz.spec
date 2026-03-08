@@ -23,6 +23,10 @@
 %define oldlibicu %mklibname %{name}-icu %{major}
 %define libgob %mklibname %{name}-gobject
 %define oldlibgob %mklibname %{name}-gobject %{major}
+%define libraster %mklibname %{name}-raster
+%define rasterdev %mklibname %{name}-raster -d
+%define libvector %mklibname %{name}-vector
+%define vectordev %mklibname %{name}-vector -d
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
 %define cadev %mklibname %{name}-cairo -d
@@ -41,6 +45,8 @@
 %define oldlib32gob %mklib32name %{name}-gobject %{major}
 %define gir32name %mklib32name %{name}-gir %{api}
 %define dev32name %mklib32name %{name} -d
+%define lib32raster %mklib32name %{name}-raster
+%define lib32vector %mklib32name %{name}-vector
 %bcond_with bootstrap
 # Omitting gir is useful for multi-stage bootstrapping
 # and for systems without gtk
@@ -48,7 +54,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	12.3.2
+Version:	13.0.1
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -152,6 +158,58 @@ Shared ICU library for the %{name} package.
 
 #----------------------------------------------------------------------------
 
+%package -n %{libraster}
+Summary:	Raster font library for the %{name} package
+Group:		System/Libraries
+
+%description -n %{libraster}
+Raster font library for the %{name} package
+
+%files -n %{libraster}
+%{_libdir}/lib%{name}-raster.so.%{major}*
+
+#----------------------------------------------------------------------------
+%package -n %{rasterdev}
+Summary:	Headers and development libraries from %{name}'s raster font support
+Group:		Development/C
+Requires:	%{libraster} = %{EVRD}
+
+%description -n %{rasterdev}
+Headers and development libraries from %{name}'s raster font support
+
+%files -n %{rasterdev}
+%{_libdir}/pkgconfig/harfbuzz-raster.pc
+%{_includedir}/harfbuzz/hb-raster.h
+%{_libdir}/libharfbuzz-raster.so
+
+#----------------------------------------------------------------------------
+
+%package -n %{libvector}
+Summary:	Vector font library for the %{name} package
+Group:		System/Libraries
+
+%description -n %{libvector}
+Vector font library for the %{name} package.
+
+%files -n %{libvector}
+%{_libdir}/lib%{name}-vector.so.%{major}*
+
+#----------------------------------------------------------------------------
+%package -n %{vectordev}
+Summary:	Headers and development libraries from %{name}'s vector font support
+Group:		Development/C
+Requires:	%{libvector} = %{EVRD}
+
+%description -n %{vectordev}
+Headers and development libraries from %{name}'s vector font support
+
+%files -n %{vectordev}
+%{_libdir}/pkgconfig/harfbuzz-vector.pc
+%{_includedir}/harfbuzz/hb-vector.h
+%{_libdir}/libharfbuzz-vector.so
+
+#----------------------------------------------------------------------------
+
 %package -n %{libgob}
 Summary:	Shared GObject library for the %{name} package
 Group:		System/Libraries
@@ -190,6 +248,8 @@ Requires:	%{libicu} = %{EVRD}
 # make it at least recomm. many packsges still require harfbuzz.pc at build time but expect also this header.
 Recommends:	%{gobdev} = %{EVRD}
 Recommends:	%{cadev} = %{EVRD}
+Recommends:	%{rasterdev} = %{EVRD}
+Recommends:	%{vectordev} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
@@ -206,6 +266,8 @@ Conflicts:	harfbuzz < 0.9.28-3
 %exclude %{_includedir}/harfbuzz/hb-cairo.h
 %exclude %{_includedir}/harfbuzz/hb-icu.h
 %exclude %{_includedir}/harfbuzz/hb-gobject*.h
+%exclude %{_includedir}/harfbuzz/hb-raster.h
+%exclude %{_includedir}/harfbuzz/hb-vector.h
 
 #----------------------------------------------------------------------------
 %package -n %{cadev}
@@ -319,6 +381,30 @@ Shared ICU library for the %{name} package.
 
 %files -n %{lib32icu}
 %{_prefix}/lib/lib%{name}-icu.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{lib32vector}
+Summary:	Vector font library for the %{name} package (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32vector}
+Vector font library for the %{name} package.
+
+%files -n %{lib32vector}
+%{_prefix}/lib/lib%{name}-vector.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{lib32raster}
+Summary:	Raster font library for the %{name} package (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32raster}
+Raster font library for the %{name} package.
+
+%files -n %{lib32raster}
+%{_prefix}/lib/lib%{name}-raster.so.%{major}*
 
 #----------------------------------------------------------------------------
 
