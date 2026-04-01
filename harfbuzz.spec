@@ -95,6 +95,7 @@ BuildRequires:	devel(libpng16)
 BuildRequires:	devel(libffi)
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libXdmcp)
+BuildRequires:	devel(libGL)
 BuildRequires:	devel(libGLEW)
 BuildRequires:	devel(libglfw)
 %endif
