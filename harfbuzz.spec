@@ -27,6 +27,8 @@
 %define rasterdev %mklibname %{name}-raster -d
 %define libvector %mklibname %{name}-vector
 %define vectordev %mklibname %{name}-vector -d
+%define libgpu %mklibname %{name}-gpu
+%define gpudev %mklibname %{name}-gpu -d
 %define girname %mklibname %{name}-gir %{api}
 %define devname %mklibname %{name} -d
 %define cadev %mklibname %{name}-cairo -d
@@ -47,6 +49,7 @@
 %define dev32name %mklib32name %{name} -d
 %define lib32raster %mklib32name %{name}-raster
 %define lib32vector %mklib32name %{name}-vector
+%define lib32gpu %mklib32name %{name}-gpu
 %bcond_with bootstrap
 # Omitting gir is useful for multi-stage bootstrapping
 # and for systems without gtk
@@ -54,7 +57,7 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	13.1.0
+Version:	14.0.0
 Release:	1
 License:	MIT
 Group:		Development/Other
@@ -75,6 +78,8 @@ BuildRequires:	gtk-doc
 BuildRequires:	pkgconfig(icu-uc) >= 60
 BuildRequires:	pkgconfig(graphite2)
 BuildRequires:	pkgconfig(fontconfig)
+BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(glfw3)
 %if %{with compat32}
 BuildRequires:	libc6
 BuildRequires:	devel(libcairo)
@@ -90,6 +95,8 @@ BuildRequires:	devel(libpng16)
 BuildRequires:	devel(libffi)
 BuildRequires:	devel(libXau)
 BuildRequires:	devel(libXdmcp)
+BuildRequires:	devel(libGLEW)
+BuildRequires:	devel(libglfw)
 %endif
 BuildRequires:	meson
 
@@ -210,6 +217,32 @@ Headers and development libraries from %{name}'s vector font support
 
 #----------------------------------------------------------------------------
 
+%package -n %{libgpu}
+Summary:	GPU acceleration library for the %{name} package
+Group:		System/Libraries
+
+%description -n %{libgpu}
+GPU acceleration library for the %{name} package.
+
+%files -n %{libgpu}
+%{_libdir}/lib%{name}-gpu.so.%{major}*
+
+#----------------------------------------------------------------------------
+%package -n %{gpudev}
+Summary:	Headers and development libraries from %{name}'s GPU support
+Group:		Development/C
+Requires:	%{libgpu} = %{EVRD}
+
+%description -n %{gpudev}
+Headers and development libraries from %{name}'s GPU support
+
+%files -n %{gpudev}
+%{_libdir}/pkgconfig/harfbuzz-gpu.pc
+%{_includedir}/harfbuzz/hb-gpu.h
+%{_libdir}/libharfbuzz-gpu.so
+
+#----------------------------------------------------------------------------
+
 %package -n %{libgob}
 Summary:	Shared GObject library for the %{name} package
 Group:		System/Libraries
@@ -250,6 +283,7 @@ Recommends:	%{gobdev} = %{EVRD}
 Recommends:	%{cadev} = %{EVRD}
 Recommends:	%{rasterdev} = %{EVRD}
 Recommends:	%{vectordev} = %{EVRD}
+Recommends:	%{gpudev} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 Conflicts:	harfbuzz < 0.9.28-3
 
@@ -268,6 +302,7 @@ Conflicts:	harfbuzz < 0.9.28-3
 %exclude %{_includedir}/harfbuzz/hb-gobject*.h
 %exclude %{_includedir}/harfbuzz/hb-raster.h
 %exclude %{_includedir}/harfbuzz/hb-vector.h
+%exclude %{_includedir}/harfbuzz/hb-gpu.h
 
 #----------------------------------------------------------------------------
 %package -n %{cadev}
@@ -393,6 +428,18 @@ Vector font library for the %{name} package.
 
 %files -n %{lib32vector}
 %{_prefix}/lib/lib%{name}-vector.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{lib32gpu}
+Summary:	GPU acceleration library for the %{name} package (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32gpu}
+GPU acceleration library for the %{name} package.
+
+%files -n %{lib32gpu}
+%{_prefix}/lib/lib%{name}-gpu.so.%{major}*
 
 #----------------------------------------------------------------------------
 
