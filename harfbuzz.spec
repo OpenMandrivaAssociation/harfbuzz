@@ -80,6 +80,7 @@ BuildRequires:	pkgconfig(graphite2)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(glfw3)
+BuildRequires:	pkgconfig(glu)
 %if %{with compat32}
 BuildRequires:	libc6
 BuildRequires:	devel(libcairo)
@@ -98,6 +99,7 @@ BuildRequires:	devel(libXdmcp)
 BuildRequires:	devel(libGL)
 BuildRequires:	devel(libGLEW)
 BuildRequires:	devel(libglfw)
+BuildRequires:	devel(libGLU)
 %endif
 BuildRequires:	meson
 
