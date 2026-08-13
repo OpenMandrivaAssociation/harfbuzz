@@ -1,0 +1,6 @@
+# Multilib builds put the same upstream sources into debugsource twice
+addFilter("harfbuzz-debugsource.*files-duplicated-waste")
+# 32-bit .pc files live in /usr/lib/pkgconfig; the generator only scans %{_libdir}
+# (lib64). Matching other multilib -devel packages, we do not invent pkgconfig()
+# Provides on the 32-bit package (those come from the native -devel package).
+addFilter("libharfbuzz-devel.*no-pkg-config-provides")

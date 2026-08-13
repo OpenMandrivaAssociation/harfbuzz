@@ -57,12 +57,13 @@
 
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
-Version:	14.3.0
+Version:	14.3.1
 Release:	1
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
 Source0:	https://github.com/harfbuzz/harfbuzz/releases/download/%{version}/harfbuzz-%{version}.tar.xz
+Source100:	%{name}.rpmlintrc
 
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(cairo)
@@ -495,8 +496,11 @@ Requires:	%{devname} = %{EVRD}
 Requires:	%{lib32name} = %{EVRD}
 Requires:	%{slib32name} = %{EVRD}
 Requires:	%{lib32icu} = %{EVRD}
-#Requires:	%{lib32gob} = %{EVRD}
-#Requires:	%{gir32name} = %{EVRD}
+Requires:	%{calib32name} = %{EVRD}
+Requires:	%{lib32gob} = %{EVRD}
+Requires:	%{lib32gpu} = %{EVRD}
+Requires:	%{lib32raster} = %{EVRD}
+Requires:	%{lib32vector} = %{EVRD}
 
 %description -n %{dev32name}
 %{name} development headers and libraries.
