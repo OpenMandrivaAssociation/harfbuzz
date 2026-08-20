@@ -58,7 +58,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	14.3.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -536,6 +536,7 @@ fi
 	-Dgraphite2=enabled \
 %if %{cross_compiling}
 	-Ddocs=disabled \
+	-Dgpu_demo=disabled \
 %endif
 %if %{with gir}
 	-Dintrospection=enabled
