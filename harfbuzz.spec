@@ -58,7 +58,7 @@
 Summary:	OpenType text shaping engine
 Name:		harfbuzz
 Version:	14.5.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Other
 Url:		https://www.freedesktop.org/wiki/Software/HarfBuzz
@@ -83,7 +83,13 @@ BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(glfw3)
 BuildRequires:	pkgconfig(glu)
 %if %{with compat32}
+# clang 23 -m32 links compiler-rt, not libgcc.a. The i386 builtins live
+# in the cross-i686 clang package, with matching libc/gcc/binutils sysroot.
 BuildRequires:	libc6
+BuildRequires:	cross-i686-openmandriva-linux-gnu-clang
+BuildRequires:	cross-i686-openmandriva-linux-gnu-libc
+BuildRequires:	cross-i686-openmandriva-linux-gnu-binutils
+BuildRequires:	cross-i686-openmandriva-linux-gnu-gcc
 BuildRequires:	devel(libcairo)
 BuildRequires:	devel(libpangocairo-1.0)
 BuildRequires:	devel(libfreetype)
